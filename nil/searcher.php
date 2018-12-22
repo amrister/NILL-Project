@@ -18,36 +18,45 @@
           </div>
           <div class="search">
             <div class="search-bar d-flex">
-              <input type="text" name="search" value="" placeholder="Search by Your Item Name">
-              <button type="button" name="button" class="btn second-back">
-                <i class="fas fa-search"></i>
-              </button>
+              <form class="" action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+                <input type="text" name="name" value="" placeholder="Search by Your Item Name" required>
+                <button type="submit" name="button" class="btn second-back">
+                  <i class="fas fa-search"></i>
+                </button>
+              </form>
             </div>
             <div class="filters">
               <div class="d-flex">
                 <h6 class="main-color">Categories:</h6>
-                <ul class="list-unstyled">
-                  <li value="Mobiles">Mobiles</li>
-                  <li value="Wallets">Wallets</li>
-                  <li value="Books">Books</li>
-                  <li value="Accessories">Accessories</li>
-                  <li value="Personal Belongs">Personal Belongs</li>
-                </ul>
+                <div class="controls">
+                  <ul class="list-unstyled">
+                    <li class="active" data-filter="all" value="all">ALL</li>
+                    <li data-filter=".Devices" value="Devices">Devices</li>
+                    <li data-filter=".Wallets" value="Wallets">Wallets</li>
+                    <li data-filter=".Books" value="Books">Books</li>
+                    <li data-filter=".Accessories" value="Accessories">Accessories</li>
+                    <li data-filter=".Personal Belongs" value="Personal Belongs">Personal Belongs</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
           <div class="items">
-            <div class="row">
-
+            <div class="row mixItUp">
               <?php
                 $con=mysql_connect("localhost","root","");
                 mysql_select_db("nil");
-                $q=mysql_query("select * from post");
+                if($_SERVER['REQUEST_METHOD']!="POST"){
+                  $q=mysql_query("SELECT * FROM post");
+                }else {
+                  $name = $_POST['name'];
+                  $q=mysql_query("SELECT * FROM post WHERE name='$name' ");
+                }
                 while($row=mysql_fetch_array($q))
                 {
-                	$id=$row["postID"];
+                  $id=$row["postID"];
                   echo'
-                  <div class="col-md-4">
+                  <div class="col-md-4 mix '.$row['category'].'">
                     <div class="item text-center">
                       <div class="image">
                         <img src="design/images/temp.jpg" alt="">
@@ -67,6 +76,9 @@
                   ';
                 }
                ?>
+               <div class="match head text-center col-md-12">
+                 <h2 class="h1">No Match Items</h2>
+               </div>
             </div>
           </div>
         </div>
@@ -75,4 +87,5 @@
     </div>
     <!-- End Founder -->
 
+    <script src="design/js/mixitup.js"></script>
 <?php include $tp1.'footer.php'; ?>

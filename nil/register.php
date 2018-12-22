@@ -4,7 +4,7 @@
     header ('Location: home.php');
     exit();
   }else{
-
+    
   }
   $noNavbar = "";
   $noEnd = "";

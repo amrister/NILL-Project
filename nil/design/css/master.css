@@ -569,6 +569,9 @@ a:hover{
 
 /*----------------------------- End Team ---------------------------------*/
 /*----------------------------- Start Search ---------------------------------*/
+.searcher .row >div ~ .match{
+  display: none;
+}
 .searcher .content{
   padding:0 90px;
 }
@@ -577,6 +580,9 @@ a:hover{
 }
 .searcher .search-bar{
   position: relative;
+}
+.searcher .search-bar form{
+  width: 100%;
 }
 .searcher .search-bar input{
   width: 100%;
