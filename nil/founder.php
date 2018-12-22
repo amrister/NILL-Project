@@ -8,6 +8,9 @@
     exit();
   }
   if($_SERVER['REQUEST_METHOD']=='POST'){
+
+    $username= $_SESSION['username'];
+
     $name = $_POST['item-name'];
     $date =  $_POST['date'];
     $timestamp = date('Y-m-d', strtotime($date));
@@ -23,7 +26,7 @@
     $ans3 = $_POST['ans3'];
 
     // Send Date to DataBase
-    $q1=$con->prepare("INSERT INTO post (name, date, category, description, quest1, quest2, quest3, ans1, ans2, ans3, photoPath) values ('$name','$timestamp','$cate','$desc','$quest1','$quest2','$quest3','$ans1','$ans2','$ans3','$path')");
+    $q1=$con->prepare("INSERT INTO post (username, name, date, category, description, quest1, quest2, quest3, ans1, ans2, ans3, photoPath) values ('$username','$name','$timestamp','$cate','$desc','$quest1','$quest2','$quest3','$ans1','$ans2','$ans3','$path')");
     try{
       $q1->execute();
       header('Location: done.php');
@@ -31,6 +34,7 @@
     }catch(PDOException $e){
       echo "Error: " . $e;
     }
+
   }
   include $tp1.'header.php';
 ?>
@@ -43,7 +47,7 @@
               <h2>Share Your Post</h2>
           </div>
           <div class="form">
-            <form class="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+            <form class="post" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" novalidate>
               <div class="form-group">
                 <label for="name">Name</label>
                 <input class="form-control" type="text" name="item-name" autofocus required>
